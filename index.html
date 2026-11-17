@@ -1,0 +1,1108 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>SPLENDOR - ジェムギルド</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-dark:#17100c;
+  --bg-velvet:#251812;
+  --gold-light:#f8e29c;
+  --gold-mid:#d4a74a;
+  --gold-dark:#8a621c;
+  --cream:#f6ebd4;
+  --muted:#bfa988;
+  --crimson:#9e2a2b;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg-dark)}
+body{
+  min-height:100vh;
+  margin:0;
+  color:var(--cream);
+  font:14px/1.45 "Noto Serif JP", Georgia, serif;
+  /* 重厚なマホガニー木目＋ベルベット卓上マットの質感 */
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(185,134,54,0.18) 0%, transparent 65%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 9px),
+    radial-gradient(circle at 50% 45%, #342218 0%, #1a110c 75%, #0d0805 100%);
+  background-attachment:fixed;
+  overflow-x:hidden;
+}
+#app{max-width:500px;margin:0 auto;padding:10px 10px 44px;position:relative}
+
+.title-wrap{text-align:center;margin:18px 0 12px;position:relative}
+.title-sub{
+  font:700 11px/1 "Cinzel", serif;
+  letter-spacing:.28em;
+  color:var(--gold-mid);
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+h1{
+  font:800 32px/1.15 "Cinzel", "Noto Serif JP", serif;
+  letter-spacing:.1em;
+  margin:0;
+  background:linear-gradient(180deg, #fff6d6 0%, #e7c065 48%, #a67824 52%, #f1d282 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.85));
+}
+.title-ornament{
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;color:var(--gold-mid);font-size:12px
+}
+.title-ornament::before,.title-ornament::after{
+  content:"";height:1px;width:64px;background:linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+}
+
+.p{
+  background:linear-gradient(180deg, rgba(44,30,22,0.92), rgba(26,17,12,0.95));
+  border:1px solid var(--gold-dark);
+  box-shadow:0 6px 18px rgba(0,0,0,0.65), inset 0 0 0 1px rgba(248,226,156,0.12);
+  border-radius:10px;
+  padding:10px;
+  margin:8px 0;
+  position:relative;
+}
+.btn{
+  display:block;width:100%;padding:11px 14px;
+  border:1px solid var(--gold-light);
+  border-radius:8px;
+  background:linear-gradient(180deg, #b83735 0%, #7c1d1c 100%);
+  color:#fff8e6;
+  font:700 15px "Noto Serif JP", serif;
+  letter-spacing:.06em;
+  margin:6px 0;
+  cursor:pointer;
+  box-shadow:0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.28);
+  transition:transform .08s, filter .15s;
+}
+.btn:active{transform:translateY(1px);filter:brightness(0.92)}
+.btn.s{
+  background:linear-gradient(180deg, #3c2b20 0%, #241912 100%);
+  border-color:var(--gold-dark);
+  color:var(--gold-light);
+}
+.btn.sm{display:inline-block;width:auto;padding:5px 11px;font-size:12px;margin:0}
+input{
+  width:100%;padding:10px 12px;border-radius:8px;
+  border:1px solid var(--gold-dark);
+  background:rgba(15,10,7,0.85);
+  color:var(--cream);
+  font:15px "Noto Serif JP", serif;
+  margin:4px 0;
+}
+input:focus{outline:none;border-color:var(--gold-light);box-shadow:0 0 0 2px rgba(212,167,74,0.25)}
+
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:2px 2px}
+.top small,.mu{color:var(--muted)}
+.fin{
+  background:linear-gradient(180deg,#d97724,#9a450e);
+  border:1px solid #ffd485;
+  color:#fff;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,0.5);
+  animation:pulseFin 1.8s infinite ease-in-out;
+}
+@keyframes pulseFin{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+.strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.pl{
+  flex:1;min-width:96px;
+  background:linear-gradient(180deg, #312218, #1f150f);
+  border:1.5px solid #594127;
+  border-radius:8px;padding:6px;font-size:12px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.5);
+  transition:border-color .25s, box-shadow .25s, transform .25s;
+}
+.pl.on{
+  border-color:var(--gold-light);
+  background:linear-gradient(180deg, #473221, #2a1c12);
+  box-shadow:0 0 12px rgba(248,226,156,0.35), inset 0 0 0 1px rgba(248,226,156,0.3);
+}
+.pl-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.pl-pts{font:800 15px "Cinzel", serif;color:var(--gold-light)}
+.pl-cards{display:flex;gap:3px;margin:4px 0}
+.bcard{
+  flex:1;height:20px;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font:700 11px "Cinzel", serif;
+  border:1px solid rgba(255,255,255,0.45);
+  box-shadow:0 1px 3px rgba(0,0,0,0.6);
+  transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.bcard.zero{opacity:0.32;filter:grayscale(0.4)}
+
+.nobs{display:flex;gap:7px;margin:6px 0}
+.nb{
+  flex:1;
+  background:linear-gradient(180deg, #2b1e16, #18100b);
+  color:var(--cream);
+  border:2px solid var(--gold-mid);
+  box-shadow:0 4px 10px rgba(0,0,0,0.7), inset 0 0 0 1px #523a18;
+  border-radius:7px;
+  overflow:hidden;
+  position:relative;
+  aspect-ratio:1/1.05;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.nb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg, rgba(16,10,7,0.82) 0%, rgba(16,10,7,0.42) 38%, transparent 72%);
+  pointer-events:none;
+}
+.nb-pts{
+  position:absolute;left:5px;top:2px;
+  font:800 18px/1 "Cinzel", serif;
+  color:#fff8dc;
+  text-shadow:0 1px 4px #000, 0 0 8px rgba(212,167,74,0.8);
+}
+.nb-name{
+  position:absolute;right:4px;bottom:2px;
+  font:700 9px/1.1 "Noto Serif JP", serif;
+  color:rgba(255,244,214,0.92);
+  background:rgba(18,11,7,0.72);
+  padding:2px 4px;border-radius:3px;
+  border:1px solid rgba(212,167,74,0.35);
+}
+.nb .ch{
+  position:absolute;left:4px;bottom:4px;
+  display:flex;flex-direction:column;gap:2px;
+}
+
+/* リアルポーカーチップ（厚みスタック表現＋物理クリック・ピックアップアニメーション） */
+.bank{display:flex;gap:6px;justify-content:space-between;padding:4px 0 2px}
+.tk-wrap{text-align:center;flex:1;position:relative}
+.tk{
+  width:48px;height:48px;margin:0 auto;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  cursor:pointer;
+  border:3.5px dashed #f5ebd6;
+  /* 重なったチップの厚みを多層シャドウで表現 */
+  box-shadow:
+    0 3px 0 #2b1d14,
+    0 5px 0 #140d09,
+    0 8px 12px rgba(0,0,0,0.8),
+    inset 0 2px 4px rgba(255,255,255,0.45),
+    inset 0 -4px 6px rgba(0,0,0,0.65);
+  transition:transform .22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .22s ease;
+}
+.tk::before{
+  content:"";position:absolute;inset:3px;border-radius:50%;
+  border:1.5px solid rgba(255,248,220,0.65);
+  background:radial-gradient(circle at 35% 28%, rgba(255,255,255,0.38), transparent 55%);
+  pointer-events:none;
+}
+.tk svg{width:24px;height:24px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.65));z-index:1;transition:transform .2s}
+.tk-cnt{
+  position:absolute;right:-3px;bottom:-3px;z-index:2;
+  min-width:19px;height:19px;padding:0 4px;border-radius:10px;
+  background:#1c120c;color:var(--gold-light);
+  border:1.5px solid var(--gold-mid);
+  font:800 11px/16px "Cinzel", serif;
+  box-shadow:0 2px 4px rgba(0,0,0,0.8);
+}
+/* チップをつまみ上げた時の浮遊＋傾きアニメーション */
+.tk.sel{
+  transform:translateY(-8px) scale(1.1) rotate(-6deg);
+  box-shadow:
+    0 11px 16px rgba(0,0,0,0.85),
+    0 0 16px rgba(255,216,77,0.9),
+    inset 0 2px 5px rgba(255,255,255,0.7);
+  outline:2px solid #ffe066;
+  outline-offset:2px;
+}
+.tk.sel svg{transform:scale(1.08)}
+.tk:active:not(.zero){transform:translateY(1px) scale(0.95)}
+.tk.zero{opacity:0.32;filter:grayscale(0.65);cursor:default;box-shadow:0 2px 4px rgba(0,0,0,0.5)}
+.tk-lbl{display:block;font-size:10px;color:var(--muted);margin-top:6px}
+
+.cs i,.ch i{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:18px;height:18px;border-radius:50%;
+  font:800 11px/1 "Cinzel", serif;font-style:normal;
+  border:1.5px solid #fff8e7;
+  box-shadow:0 1px 3px rgba(0,0,0,0.85), inset 0 -2px 3px rgba(0,0,0,0.35);
+}
+.ch i{min-width:16px;height:16px;border-radius:3px;font-size:10px}
+
+/* 開発カード＋ディール（山札からの補充フリップ）アニメーション */
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:4px 0 10px;perspective:700px}
+.cd{
+  position:relative;
+  background:#1f1610;
+  border:2px solid #9d7532;
+  border-radius:8px;
+  overflow:hidden;
+  aspect-ratio:5/7.2;
+  box-shadow:0 4px 10px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,235,175,0.35);
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition:transform .22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .22s ease;
+}
+.cd:hover:not(.em){transform:translateY(-3px) scale(1.02);box-shadow:0 8px 16px rgba(0,0,0,0.85)}
+.cd:active:not(.em){transform:scale(0.96)}
+.cd.ok{
+  border-color:#ffe066;
+  box-shadow:0 0 0 1.5px #ffe066, 0 0 14px rgba(255,216,77,0.75), 0 4px 10px rgba(0,0,0,0.8);
+}
+.cd.em{
+  background:rgba(20,13,9,0.55);
+  border:1.5px dashed #5c4326;
+  box-shadow:none;
+  cursor:default;
+}
+/* 新しく場に補充されたカードのディール＆フリップアニメーション */
+.cd.deal-in{
+  animation:cardDealFlip .55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes cardDealFlip{
+  0%{opacity:0;transform:translateX(-28px) translateY(-10px) rotateY(-85deg) scale(0.86)}
+  60%{opacity:1;transform:translateX(2px) translateY(-2px) rotateY(8deg) scale(1.02)}
+  100%{opacity:1;transform:translateX(0) translateY(0) rotateY(0deg) scale(1)}
+}
+/* カード上のシマー（光の反射）エフェクト */
+.cd.ok::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,248,210,0.22) 50%, transparent 70%);
+  transform:translateX(-100%);
+  animation:cardShimmer 3.2s infinite ease-in-out;
+  pointer-events:none;z-index:3;
+}
+@keyframes cardShimmer{
+  0%,65%{transform:translateX(-120%)}
+  100%{transform:translateX(120%)}
+}
+
+.hd{
+  position:absolute;left:0;right:0;top:0;height:25%;
+  background:linear-gradient(180deg, rgba(255,250,240,0.82) 0%, rgba(242,230,205,0.62) 100%);
+  backdrop-filter:blur(2px);
+  border-bottom:1.5px solid rgba(157,117,50,0.75);
+  box-shadow:0 2px 6px rgba(0,0,0,0.35);
+  z-index:1;
+}
+.pt{
+  position:absolute;left:6px;top:1px;z-index:2;
+  font:800 21px/1.15 "Cinzel", Georgia, serif;
+  color:#ffffff;
+  text-shadow:
+    -1px -1px 0 #1f1308,
+     1px -1px 0 #1f1308,
+    -1px  1px 0 #1f1308,
+     1px  1px 0 #1f1308,
+     0   2px 4px rgba(0,0,0,0.85);
+}
+.pt:empty{display:none}
+.bg{
+  position:absolute;right:5px;top:3px;z-index:2;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,0.65));
+}
+.cs{
+  position:absolute;left:5px;bottom:5px;
+  display:flex;flex-direction:column-reverse;gap:2.5px;z-index:2;
+}
+
+.lv-bar{display:flex;align-items:center;justify-content:space-between;margin:6px 2px 2px}
+.lv-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font:700 12px "Cinzel", "Noto Serif JP", serif;
+  color:var(--gold-light);
+}
+.lv-dots{display:inline-flex;gap:3px}
+.lv-dots span{width:6px;height:6px;border-radius:50%;background:var(--gold-mid);box-shadow:0 0 4px var(--gold-mid)}
+
+/* 卓上飛行アニメーション用オーバーレイレイヤー */
+#fx-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden;
+}
+.fly-chip{
+  position:fixed;width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px dashed #f5ebd6;
+  box-shadow:0 12px 22px rgba(0,0,0,0.85), 0 0 14px rgba(255,220,120,0.65);
+  will-change:transform, opacity;
+  z-index:55;
+}
+.fly-card{
+  position:fixed;border-radius:8px;overflow:hidden;
+  border:2px solid #ffe066;
+  box-shadow:0 16px 32px rgba(0,0,0,0.9), 0 0 22px rgba(255,216,77,0.8);
+  will-change:transform, opacity;
+  z-index:60;
+}
+/* 貴族来訪の黄金バナー演出 */
+.noble-banner{
+  position:fixed;left:50%;top:36%;transform:translate(-50%,-50%) scale(0.8);
+  background:linear-gradient(180deg, rgba(46,30,16,0.96), rgba(20,12,6,0.98));
+  border:2px solid #ffe066;
+  box-shadow:0 12px 36px rgba(0,0,0,0.95), 0 0 28px rgba(255,216,77,0.65);
+  border-radius:12px;padding:14px 22px;text-align:center;
+  z-index:70;opacity:0;
+  animation:nobleBannerAnim 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes nobleBannerAnim{
+  0%{opacity:0;transform:translate(-50%,-40%) scale(0.75)}
+  18%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}
+  28%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  82%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-62%) scale(0.95)}
+}
+
+.sheet{
+  position:fixed;inset:0;background:rgba(8,5,3,0.82);
+  backdrop-filter:blur(3px);
+  display:flex;align-items:flex-end;justify-content:center;z-index:9;
+  animation:fadeSheet .2s ease-out;
+}
+@keyframes fadeSheet{from{opacity:0}to{opacity:1}}
+.sheet>div{
+  background:linear-gradient(180deg, #322217, #1c120c);
+  border-top:2px solid var(--gold-mid);
+  width:100%;max-width:500px;
+  border-radius:16px 16px 0 0;
+  padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -8px 28px rgba(0,0,0,0.85);
+  animation:slideSheet .25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes slideSheet{from{transform:translateY(40px)}to{transform:translateY(0)}}
+.sheet .cd{width:190px;margin:0 auto 12px}
+.sheet .pt{font-size:32px;left:10px;top:3px}
+.sheet .cs{left:8px;bottom:8px;gap:4px}
+.sheet .cs i{min-width:26px;height:26px;font-size:14px}
+
+#toast{
+  position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);
+  background:linear-gradient(180deg, #2d1e14, #170f0a);
+  border:1px solid var(--gold-mid);
+  color:var(--gold-light);
+  padding:8px 16px;border-radius:20px;z-index:80;font-size:13px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.8);display:none;white-space:nowrap;
+}
+.lab{font-size:11px;color:var(--muted);margin:4px 2px 0;text-align:center}
+.log{
+  font-size:11.5px;color:var(--muted);
+  background:rgba(15,10,7,0.6);
+  border:1px solid rgba(138,98,28,0.35);
+  border-radius:8px;padding:7px 10px;margin-top:8px;
+}
+</style></head><body><div id="app"></div><div id="fx-layer"></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app'),fxLayer=$('#fx-layer'),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CN=['ダイヤ','サファイア','エメラルド','ルビー','オニキス'],
+      HX=['#eef4fa','#1d5fd6','#15803d','#c81e2b','#262322','#eab308'],
+      HX_LIGHT=['#ffffff','#60a5fa','#4ade80','#f87171','#6b7280','#fde047'],
+      HX_DARK=['#94a3b8','#1e3a8a','#064e3b','#7f1d1d','#09090b','#854d0e'],
+      TX=['#1e293b','#ffffff','#ffffff','#ffffff','#f8fafc','#1c1917'];
+
+let seed=20240611;const rnd=()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296;
+const CARDS=[],NOB=[],NN=['カール5世','イザベラ女王','メディチ家','スレイマン大帝','マキャヴェッリ','メアリー女王','レオナルド','エンリケ航海王子','ボルジア枢機卿','アン・ブーリン'];
+
+[40,30,20].forEach((n,t)=>{
+  for(let i=0;i<n;i++){
+    const col=i%5,
+          pts=[[0,0,0,0,0,1],[1,2,2,3],[3,4,4,5]][t][rnd()*[6,4,4][t]|0],
+          tot=[3,5,7][t]+pts+(rnd()*2|0),
+          o=[0,1,2,3,4].filter(x=>x!=col).sort(()=>rnd()-.5).slice(0,2+(rnd()<.5?1:0)),
+          off=rnd()*3|0,
+          cost=[0,0,0,0,0];
+    for(let j=0;j<tot;j++)cost[o[(j+off)%o.length]]++;
+    CARDS.push({id:CARDS.length,t,col,pts,cost,r:rnd(),r2:rnd(),r3:rnd()})
+  }
+});
+for(let i=0;i<10;i++){
+  const o=[0,1,2,3,4].sort(()=>rnd()-.5),two=rnd()<.5;
+  NOB.push({
+    id:i,name:NN[i],
+    need:[0,1,2,3,4].map(k=>o.slice(0,two?2:3).includes(k)?(two?4:3):0),
+    bg:HX_DARK[o[0]],cl:HX[o[1]],hair:i%3==0?'#d4a359':i%3==1?'#3b2314':'#1c1410'
+  })
+}
+
+/* ---------- 宝石ファセット（多面体カット）SVG ---------- */
+function gem(k,z=18){
+  const c1=HX_LIGHT[k], c2=HX[k], c3=HX_DARK[k];
+  if(k==0){
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><polygon points="6,3 18,3 23,9 12,22 1,9" fill="${c2}" stroke="#1e293b" stroke-width="1.2"/><polygon points="6,3 18,3 15,9 9,9" fill="${c1}"/><polygon points="9,9 15,9 12,22" fill="#cbd5e1"/><polygon points="1,9 9,9 12,22" fill="${c3}" opacity=".45"/><polygon points="15,9 23,9 12,22" fill="${c1}" opacity=".7"/></svg>`;
+  }else if(k==1){
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><path d="M12 2 C18 7 21 12 21 15.5 A9 7.5 0 0 1 3 15.5 C3 12 6 7 12 2 Z" fill="${c2}" stroke="#0f172a" stroke-width="1.2"/><path d="M12 5 C15.5 8.5 17 12 17 14.5 A5 4.5 0 0 1 7 14.5 C7 12 8.5 8.5 12 5 Z" fill="${c1}" opacity=".65"/><ellipse cx="9.5" cy="11" rx="2" ry="3.5" transform="rotate(-20 9.5 11)" fill="#fff" opacity=".75"/></svg>`;
+  }else if(k==2){
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><polygon points="7,2 17,2 21,6 21,18 17,22 7,22 3,18 3,6" fill="${c2}" stroke="#052e16" stroke-width="1.2"/><polygon points="8.5,5.5 15.5,5.5 17.5,7.5 17.5,16.5 15.5,18.5 8.5,18.5 6.5,16.5 6.5,7.5" fill="${c1}" opacity=".6"/><polygon points="7,2 8.5,5.5 6.5,7.5 3,6" fill="#fff" opacity=".5"/><polygon points="17.5,16.5 21,18 17,22 15.5,18.5" fill="${c3}" opacity=".7"/></svg>`;
+  }else if(k==3){
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="${c2}" stroke="#450a0a" stroke-width="1.2"/><rect x="6.5" y="6.5" width="11" height="11" rx="2.5" fill="${c1}" opacity=".65"/><polygon points="3,6 6.5,6.5 6.5,17.5 3,18" fill="#fca5a5" opacity=".45"/><polygon points="17.5,6.5 21,6 21,18 17.5,17.5" fill="${c3}" opacity=".65"/><circle cx="9" cy="9" r="1.8" fill="#fff" opacity=".8"/></svg>`;
+  }else if(k==4){
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><polygon points="12,1.5 20,7 20,17 12,22.5 4,17 4,7" fill="${c2}" stroke="#000" stroke-width="1.2"/><polygon points="12,5 16.5,8.5 16.5,15.5 12,19 7.5,15.5 7.5,8.5" fill="${c1}" opacity=".55"/><polygon points="12,1.5 16.5,8.5 7.5,8.5" fill="#cbd5e1" opacity=".5"/></svg>`;
+  }else{
+    return `<svg width="${z}" height="${z}" viewBox="0 0 24 24"><polygon points="6,6 18,6 22,18 2,18" fill="${c2}" stroke="#713f12" stroke-width="1.2"/><polygon points="7.5,8 16.5,8 19,16 5,16" fill="${c1}"/><ellipse cx="12" cy="12" rx="3.5" ry="2" fill="${c3}" opacity=".45"/></svg>`;
+  }
+}
+
+/* ---------- Web Audio API 物理効果音（チップの陶器音・カード滑走音） ---------- */
+let audioCtx=null;
+function playSfx(type){
+  try{
+    if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended')audioCtx.resume();
+    const now=audioCtx.currentTime;
+    if(type==='chip'){
+      // クレイポーカーチップ同士がぶつかる「カチッ」という高音の陶器クリック音
+      const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+      osc.type='triangle';
+      osc.frequency.setValueAtTime(2400,now);
+      osc.frequency.exponentialRampToValueAtTime(620,now+0.045);
+      g.gain.setValueAtTime(0.18,now);
+      g.gain.exponentialRampToValueAtTime(0.001,now+0.05);
+      osc.connect(g);g.connect(audioCtx.destination);
+      osc.start(now);osc.stop(now+0.055);
+    }else if(type==='card'){
+      // 厚手カードが卓上を滑る「シュッ」という摩擦音＋着地音
+      const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*0.14,audioCtx.sampleRate);
+      const data=buf.getChannelData(0);
+      for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/(audioCtx.sampleRate*0.04));
+      const src=audioCtx.createBufferSource(),flt=audioCtx.createBiquadFilter(),g=audioCtx.createGain();
+      src.buffer=buf;flt.type='bandpass';flt.frequency.setValueAtTime(1100,now);
+      g.gain.setValueAtTime(0.22,now);g.gain.exponentialRampToValueAtTime(0.001,now+0.13);
+      src.connect(flt);flt.connect(g);g.connect(audioCtx.destination);
+      src.start(now);
+    }else if(type==='noble'){
+      // 貴族来訪のハープ・ファンファーレ和音
+      [523.25,659.25,783.99,1046.5].forEach((freq,idx)=>{
+        const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+        osc.type='sine';osc.frequency.setValueAtTime(freq,now+idx*0.07);
+        g.gain.setValueAtTime(0.001,now+idx*0.07);
+        g.gain.linearRampToValueAtTime(0.12,now+idx*0.07+0.03);
+        g.gain.exponentialRampToValueAtTime(0.001,now+idx*0.07+0.65);
+        osc.connect(g);g.connect(audioCtx.destination);
+        osc.start(now+idx*0.07);osc.stop(now+idx*0.07+0.7);
+      });
+    }
+  }catch(e){}
+}
+
+/* ---------- 卓上物理アニメーションエンジン（チップ飛行・カード購入スライド・貴族演出） ---------- */
+function flyToken(k, fromEl, toEl, delay=0){
+  if(!fromEl || !toEl) return;
+  const r1=fromEl.getBoundingClientRect(), r2=toEl.getBoundingClientRect();
+  if(!r1.width || !r2.width) return;
+  const el=document.createElement('div');
+  el.className='fly-chip';
+  el.style.background=`radial-gradient(circle at 35% 30%, ${HX_LIGHT[k]}, ${HX[k]} 68%, ${HX_DARK[k]})`;
+  el.innerHTML=gem(k,22);
+  const startX=r1.left+r1.width/2-21, startY=r1.top+r1.height/2-21;
+  const endX=r2.left+r2.width/2-21, endY=r2.top+r2.height/2-21;
+  el.style.left=startX+'px'; el.style.top=startY+'px';
+  fxLayer.appendChild(el);
+
+  const dx=endX-startX, dy=endY-startY;
+  // 放物線を描くように持ち上がって着地するリアルな軌道
+  const anim=el.animate([
+    {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},
+    {transform:`translate(${dx*0.45}px, ${dy*0.45 - 38}px) scale(1.25) rotate(140deg)`,opacity:1,offset:0.5},
+    {transform:`translate(${dx}px, ${dy}px) scale(0.75) rotate(320deg)`,opacity:0.15}
+  ],{duration:520,delay,easing:'cubic-bezier(0.22, 1, 0.36, 1)',fill:'forwards'});
+  setTimeout(()=>playSfx('chip'),delay+20);
+  anim.onfinish=()=>el.remove();
+}
+
+function flyCardToPlayer(cardId, fromEl, toEl){
+  if(!fromEl || !toEl) return;
+  const r1=fromEl.getBoundingClientRect(), r2=toEl.getBoundingClientRect();
+  if(!r1.width || !r2.width) return;
+  const c=CARDS[cardId];
+  const el=document.createElement('div');
+  el.className='fly-card';
+  el.style.left=r1.left+'px'; el.style.top=r1.top+'px';
+  el.style.width=r1.width+'px'; el.style.height=r1.height+'px';
+  el.innerHTML=`<img src="${getCardArtUrl(c)}" style="width:100%;height:100%;object-fit:cover"><div class="hd"></div><b class="pt">${c.pts||''}</b><span class="bg">${gem(c.col,20)}</span>`;
+  fxLayer.appendChild(el);
+  playSfx('card');
+
+  const dx=(r2.left+r2.width/2)-(r1.left+r1.width/2);
+  const dy=(r2.top+r2.height/2)-(r1.top+r1.height/2);
+  const anim=el.animate([
+    {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},
+    {transform:`translate(${dx*0.4}px, ${dy*0.4 - 24}px) scale(1.14) rotate(-5deg)`,opacity:1,offset:0.45},
+    {transform:`translate(${dx}px, ${dy}px) scale(0.32) rotate(8deg)`,opacity:0}
+  ],{duration:580,easing:'cubic-bezier(0.22, 1, 0.36, 1)',fill:'forwards'});
+  anim.onfinish=()=>el.remove();
+}
+
+function showNobleBanner(nobleId, playerName){
+  const n=NOB[nobleId];
+  if(!n) return;
+  playSfx('noble');
+  const div=document.createElement('div');
+  div.className='noble-banner';
+  div.innerHTML=`<div style="font:700 11px 'Cinzel',serif;letter-spacing:.2em;color:var(--gold-mid)">ROYAL PATRONAGE</div>
+    <div style="font:700 17px 'Noto Serif JP',serif;color:var(--gold-light);margin:4px 0">👑 ${esc(n.name)} が来訪！</div>
+    <div style="font-size:12px;color:var(--cream)">${esc(playerName)} に威信 <b>+3点</b></div>`;
+  fxLayer.appendChild(div);
+  setTimeout(()=>div.remove(),2300);
+}
+
+/* ---------- プロシージャル油彩・ルネサンス風景画＆肖像画レンダラー ---------- */
+const ART_CACHE = new Map();
+const NOB_CACHE = new Map();
+
+function makeRng(s){
+  let st = (s * 2654435761) >>> 0;
+  return () => ((st = (st * 1664525 + 1013904223) >>> 0) / 4294967296);
+}
+
+function drawClouds(ctx, w, h, rng, topCol, botCol, count=5){
+  for(let i=0;i<count;i++){
+    const cx = rng() * w, cy = h * (0.24 + rng() * 0.25);
+    const rx = 24 + rng() * 34, ry = 8 + rng() * 11;
+    for(let p=0;p<6;p++){
+      const ox = cx + (rng()-0.5)*rx*1.3, oy = cy + (rng()-0.5)*ry*0.9;
+      const r = ry * (0.7 + rng()*0.8);
+      const g = ctx.createRadialGradient(ox, oy - r*0.3, r*0.1, ox, oy, r);
+      g.addColorStop(0, topCol); g.addColorStop(0.65, botCol); g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ox, oy, r, 0, Math.PI*2); ctx.fill();
+    }
+  }
+}
+
+function drawMountain(ctx, peakX, peakY, baseW, baseY, litCol, shadowCol, snowRatio=0, hazeCol=null){
+  const leftX = peakX - baseW * 0.55, rightX = peakX + baseW * 0.55;
+  const ridgePts = [[peakX, peakY]];
+  for(let i=1;i<=6;i++){
+    const t = i / 6;
+    ridgePts.push([peakX + (t - 0.45) * 14 * Math.sin(i * 2.1), peakY + (baseY - peakY) * t]);
+  }
+  ctx.beginPath(); ctx.moveTo(leftX, baseY); ctx.lineTo(peakX, peakY);
+  ridgePts.forEach(p => ctx.lineTo(p[0], p[1]));
+  ctx.lineTo(leftX, baseY); ctx.closePath(); ctx.fillStyle = litCol; ctx.fill();
+
+  ctx.beginPath(); ctx.moveTo(rightX, baseY); ctx.lineTo(peakX, peakY);
+  ridgePts.forEach(p => ctx.lineTo(p[0], p[1]));
+  ctx.lineTo(rightX, baseY); ctx.closePath(); ctx.fillStyle = shadowCol; ctx.fill();
+
+  if(snowRatio > 0){
+    const sh = (baseY - peakY) * snowRatio, sw = baseW * snowRatio * 0.52;
+    ctx.beginPath();
+    ctx.moveTo(peakX, peakY);
+    ctx.lineTo(peakX - sw*0.9, peakY + sh); ctx.lineTo(peakX - sw*0.3, peakY + sh*0.78);
+    ctx.lineTo(peakX + sw*0.15, peakY + sh*0.95); ctx.lineTo(peakX + sw*0.85, peakY + sh*0.85);
+    ctx.closePath();
+    const sg = ctx.createLinearGradient(0, peakY, 0, peakY + sh);
+    sg.addColorStop(0, '#ffffff'); sg.addColorStop(1, '#cbd5e1');
+    ctx.fillStyle = sg; ctx.fill();
+  }
+  if(hazeCol){
+    const hg = ctx.createLinearGradient(0, peakY + (baseY-peakY)*0.4, 0, baseY);
+    hg.addColorStop(0, 'rgba(255,255,255,0)'); hg.addColorStop(1, hazeCol);
+    ctx.fillStyle = hg; ctx.beginPath(); ctx.moveTo(leftX, baseY); ctx.lineTo(peakX, peakY); ctx.lineTo(rightX, baseY); ctx.closePath(); ctx.fill();
+  }
+}
+
+function drawPineTree(ctx, x, y, h, darkCol, midCol, lightCol){
+  ctx.fillStyle = '#2d1a0e'; ctx.fillRect(x - h*0.04, y - h*0.2, h*0.08, h*0.22);
+  for(let i=0;i<4;i++){
+    const ty = y - h * (0.22 + i * 0.19), tw = h * (0.34 - i * 0.055), th = h * 0.28;
+    ctx.beginPath(); ctx.moveTo(x, ty - th); ctx.lineTo(x - tw, ty); ctx.lineTo(x + tw, ty); ctx.closePath(); ctx.fillStyle = darkCol; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x, ty - th); ctx.lineTo(x - tw*0.95, ty); ctx.lineTo(x + tw*0.1, ty); ctx.closePath(); ctx.fillStyle = midCol; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x, ty - th); ctx.lineTo(x - tw*0.45, ty - th*0.45); ctx.lineTo(x + tw*0.05, ty - th*0.45); ctx.closePath(); ctx.fillStyle = lightCol; ctx.fill();
+  }
+}
+
+function applyOilFinish(ctx, w, h, rng){
+  ctx.save();
+  for(let i=0;i<220;i++){
+    const x = rng()*w, y = rng()*h, len = 4 + rng()*12, ang = (rng()-0.5)*0.5;
+    ctx.strokeStyle = rng()>0.5 ? 'rgba(255,248,230,0.035)' : 'rgba(20,10,4,0.045)';
+    ctx.lineWidth = 0.8 + rng()*1.4;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + Math.cos(ang)*len, y + Math.sin(ang)*len); ctx.stroke();
+  }
+  const vg = ctx.createRadialGradient(w*0.5, h*0.46, w*0.28, w*0.5, h*0.5, h*0.68);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(0.75, 'rgba(18,10,4,0.22)'); vg.addColorStop(1, 'rgba(12,6,2,0.58)');
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, w, h);
+  ctx.restore();
+}
+
+function getCardArtUrl(c){
+  if(ART_CACHE.has(c.id)) return ART_CACHE.get(c.id);
+  const w = 180, h = 256, cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d'), rng = makeRng(c.id * 97 + c.col * 31 + c.t * 13 + 7);
+  const k = c.col, t = c.t;
+
+  if(k === 0){
+    const sky = ctx.createLinearGradient(0, 0, 0, h*0.62);
+    sky.addColorStop(0, '#2c537a'); sky.addColorStop(0.55, '#7ba4c7'); sky.addColorStop(1, '#e6eef5');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    drawClouds(ctx, w, h, rng, 'rgba(255,255,255,0.85)', 'rgba(195,214,232,0.45)', 5);
+    drawMountain(ctx, w*(0.22+rng()*0.15), h*0.28, w*0.95, h*0.72, '#94aec7', '#4b6582', 0.55, 'rgba(215,230,242,0.55)');
+    drawMountain(ctx, w*(0.72+rng()*0.15), h*0.23, w*1.05, h*0.74, '#cbdbe8', '#5c7896', 0.65, 'rgba(225,236,245,0.35)');
+    const snow = ctx.createLinearGradient(0, h*0.62, 0, h);
+    snow.addColorStop(0, '#dce7f0'); snow.addColorStop(0.5, '#b6c9db'); snow.addColorStop(1, '#7d95ad');
+    ctx.fillStyle = snow; ctx.beginPath(); ctx.moveTo(0, h*0.68); ctx.bezierCurveTo(w*0.35, h*0.62, w*0.65, h*0.73, w, h*0.66); ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
+    if(t === 0){
+      const mx = w*(0.35 + rng()*0.25), my = h*0.76;
+      ctx.fillStyle = '#475569'; ctx.beginPath(); ctx.moveTo(mx-32, my+14); ctx.lineTo(mx-16, my-26); ctx.lineTo(mx+24, my-22); ctx.lineTo(mx+38, my+14); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.arc(mx, my+4, 13, Math.PI, 0); ctx.lineTo(mx+13, my+14); ctx.lineTo(mx-13, my+14); ctx.fill();
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(mx-13, my+14); ctx.lineTo(mx-13, my-4); ctx.lineTo(mx+13, my-4); ctx.lineTo(mx+13, my+14); ctx.stroke();
+    }else if(t === 1){
+      const tx = w*(0.45 + rng()*0.2), ty = h*0.74;
+      ctx.fillStyle = '#cbd5e1'; ctx.fillRect(tx-14, ty-44, 28, 44); ctx.fillStyle = '#94a3b8'; ctx.fillRect(tx+2, ty-44, 12, 44);
+      ctx.fillStyle = '#7f1d1d'; ctx.beginPath(); ctx.moveTo(tx-17, ty-44); ctx.lineTo(tx, ty-64); ctx.lineTo(tx+17, ty-44); ctx.fill();
+    }else{
+      const cx = w*0.5, cy = h*0.76;
+      ctx.fillStyle = '#f1f5f9'; ctx.fillRect(cx-44, cy-46, 88, 46); ctx.fillStyle = '#cbd5e1'; ctx.fillRect(cx+10, cy-46, 34, 46);
+      ctx.fillStyle = '#1e3a8a'; ctx.beginPath(); ctx.moveTo(cx-44, cy-46); ctx.lineTo(cx-34, cy-82); ctx.lineTo(cx-24, cy-46); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(cx+24, cy-46); ctx.lineTo(cx+34, cy-82); ctx.lineTo(cx+44, cy-46); ctx.fill();
+      ctx.fillStyle = '#b45309'; ctx.beginPath(); ctx.moveTo(cx-16, cy-46); ctx.lineTo(cx, cy-70); ctx.lineTo(cx+16, cy-46); ctx.fill();
+      ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(cx, cy-28, 8, 0, Math.PI*2); ctx.fill();
+    }
+  }
+  else if(k === 1){
+    const sunX = w*(0.25 + rng()*0.5), sunY = h*0.42;
+    const sky = ctx.createLinearGradient(0, 0, 0, h*0.62);
+    sky.addColorStop(0, '#163560'); sky.addColorStop(0.55, '#3b76a8'); sky.addColorStop(1, '#f3c683');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    const sunG = ctx.createRadialGradient(sunX, sunY, 2, sunX, sunY, 55);
+    sunG.addColorStop(0, 'rgba(255,250,220,0.95)'); sunG.addColorStop(0.3, 'rgba(253,210,130,0.45)'); sunG.addColorStop(1, 'rgba(253,210,130,0)');
+    ctx.fillStyle = sunG; ctx.fillRect(0, 0, w, h*0.65);
+    drawClouds(ctx, w, h, rng, 'rgba(255,238,205,0.75)', 'rgba(130,165,205,0.35)', 4);
+    const sea = ctx.createLinearGradient(0, h*0.56, 0, h);
+    sea.addColorStop(0, '#1d4ed8'); sea.addColorStop(0.45, '#1e3a8a'); sea.addColorStop(1, '#0f172a');
+    ctx.fillStyle = sea; ctx.fillRect(0, h*0.56, w, h*0.44);
+    for(let i=0;i<26;i++){
+      const wy = h*(0.57 + (i/26)*0.41), spread = 8 + (i/26)*38;
+      ctx.strokeStyle = i%2===0 ? 'rgba(254,240,138,0.42)' : 'rgba(147,197,253,0.22)';
+      ctx.lineWidth = 1 + (i/26)*1.6;
+      ctx.beginPath(); ctx.moveTo(sunX - spread*(0.4+rng()*0.6), wy); ctx.lineTo(sunX + spread*(0.4+rng()*0.6), wy); ctx.stroke();
+    }
+    if(t === 0){
+      const bx = w*(0.32 + rng()*0.32), by = h*0.74;
+      ctx.fillStyle = '#451a03'; ctx.beginPath(); ctx.moveTo(bx-24, by); ctx.lineTo(bx+26, by); ctx.lineTo(bx+18, by+11); ctx.lineTo(bx-16, by+11); ctx.fill();
+      ctx.fillStyle = '#fef3c7'; ctx.beginPath(); ctx.moveTo(bx-2, by-2); ctx.lineTo(bx+4, by-38); ctx.lineTo(bx+24, by-5); ctx.closePath(); ctx.fill();
+    }else if(t === 1){
+      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(w*0.76, h*0.38, 16, h*0.24);
+      ctx.fillStyle = '#991b1b'; ctx.beginPath(); ctx.moveTo(w*0.74, h*0.38); ctx.lineTo(w*0.84, h*0.31); ctx.lineTo(w*0.94, h*0.38); ctx.fill();
+      const bx = w*0.38, by = h*0.76;
+      ctx.fillStyle = '#451a03'; ctx.beginPath(); ctx.moveTo(bx-34, by-2); ctx.lineTo(bx+36, by-2); ctx.lineTo(bx+26, by+14); ctx.lineTo(bx-24, by+14); ctx.fill();
+      ctx.fillStyle = '#fffbeb'; ctx.beginPath(); ctx.moveTo(bx-4, by-4); ctx.quadraticCurveTo(bx+22, by-28, bx-4, by-52); ctx.fill();
+    }else{
+      const bx = w*0.5, by = h*0.78;
+      ctx.fillStyle = '#451a03'; ctx.beginPath(); ctx.moveTo(bx-54, by-8); ctx.lineTo(bx-42, by-18); ctx.lineTo(bx+34, by-6); ctx.lineTo(bx+56, by-14); ctx.lineTo(bx+42, by+16); ctx.lineTo(bx-38, by+16); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.stroke();
+      [[-18, 68, 28], [14, 56, 22], [36, 40, 15]].forEach(([ox, mh, sw])=>{
+        ctx.fillStyle = '#290f02'; ctx.fillRect(bx+ox-1.5, by-mh, 3, mh);
+        const sg = ctx.createLinearGradient(bx+ox-sw, 0, bx+ox+sw, 0);
+        sg.addColorStop(0, '#fde68a'); sg.addColorStop(0.5, '#fffbeb'); sg.addColorStop(1, '#d97706');
+        ctx.fillStyle = sg; ctx.beginPath(); ctx.moveTo(bx+ox-sw, by-mh+8); ctx.quadraticCurveTo(bx+ox, by-mh*0.55, bx+ox-sw*0.9, by-14); ctx.lineTo(bx+ox+sw*0.9, by-14); ctx.quadraticCurveTo(bx+ox+sw*1.2, by-mh*0.55, bx+ox+sw, by-mh+8); ctx.closePath(); ctx.fill();
+      });
+    }
+  }
+  else if(k === 2){
+    const sky = ctx.createLinearGradient(0, 0, 0, h*0.58);
+    sky.addColorStop(0, '#1e4633'); sky.addColorStop(0.6, '#4d8259'); sky.addColorStop(1, '#d9e8b8');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    drawMountain(ctx, w*0.3, h*0.36, w*1.1, h*0.68, '#3b6e4c', '#1e422b', 0, 'rgba(185,215,175,0.45)');
+    drawMountain(ctx, w*0.78, h*0.34, w*1.0, h*0.7, '#2d5c3d', '#143320', 0, 'rgba(185,215,175,0.35)');
+    const hill = ctx.createLinearGradient(0, h*0.56, 0, h);
+    hill.addColorStop(0, '#235c34'); hill.addColorStop(0.5, '#174224'); hill.addColorStop(1, '#0b2413');
+    ctx.fillStyle = hill; ctx.fillRect(0, h*0.56, w, h*0.44);
+    ctx.fillStyle = '#34d399'; ctx.beginPath(); ctx.moveTo(w*0.45, h*0.62); ctx.bezierCurveTo(w*0.25, h*0.74, w*0.72, h*0.84, w*0.38, h); ctx.lineTo(w*0.64, h); ctx.bezierCurveTo(w*0.88, h*0.84, w*0.38, h*0.74, w*0.52, h*0.62); ctx.fill();
+    for(let i=0;i<6;i++) drawPineTree(ctx, 14 + i*31 + (rng()-0.5)*12, h*(0.64 + (i%3)*0.11), 38 + (i%2)*14, '#0a2915', '#166534', '#4ade80');
+    if(t >= 1){
+      const wx = w*0.52, wy = h*0.76;
+      ctx.fillStyle = '#d6d3d1'; ctx.fillRect(wx-24, wy-28, 48, 28);
+      ctx.fillStyle = '#7c2d12'; ctx.beginPath(); ctx.moveTo(wx-28, wy-28); ctx.lineTo(wx, wy-46); ctx.lineTo(wx+28, wy-28); ctx.fill();
+    }
+  }
+  else if(k === 3){
+    const sky = ctx.createLinearGradient(0, 0, 0, h*0.62);
+    sky.addColorStop(0, '#3b0d0c'); sky.addColorStop(0.5, '#9a3412'); sky.addColorStop(1, '#fdba74');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    drawClouds(ctx, w, h, rng, 'rgba(254,215,170,0.65)', 'rgba(124,45,18,0.45)', 5);
+    drawMountain(ctx, w*0.26, h*0.28, w*0.95, h*0.72, '#9a3412', '#451a03', 0, 'rgba(251,146,60,0.35)');
+    drawMountain(ctx, w*0.75, h*0.25, w*1.0, h*0.74, '#7c2d12', '#290d02', 0, 'rgba(251,146,60,0.25)');
+    const ground = ctx.createLinearGradient(0, h*0.64, 0, h);
+    ground.addColorStop(0, '#451a03'); ground.addColorStop(1, '#1c0a04');
+    ctx.fillStyle = ground; ctx.fillRect(0, h*0.64, w, h*0.36);
+    if(t === 0){
+      const fx = w*0.48, fy = h*0.8;
+      ctx.fillStyle = '#57534e'; ctx.fillRect(fx-26, fy-32, 52, 32);
+      const fireG = ctx.createRadialGradient(fx, fy-12, 2, fx, fy-12, 28);
+      fireG.addColorStop(0, '#fef08a'); fireG.addColorStop(0.45, '#f97316'); fireG.addColorStop(1, 'rgba(249,115,22,0)');
+      ctx.fillStyle = fireG; ctx.fillRect(fx-30, fy-42, 60, 42);
+    }else if(t === 1){
+      const fx = w*0.46, fy = h*0.78;
+      ctx.fillStyle = '#7f1d1d'; ctx.fillRect(fx+22, fy-68, 12, 68);
+      ctx.fillStyle = '#991b1b'; ctx.fillRect(fx-34, fy-38, 68, 38);
+      ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(fx-8, fy, 12, Math.PI, 0); ctx.fill();
+    }else{
+      const px = w*0.5, py = h*0.78;
+      ctx.fillStyle = '#b91c1c'; ctx.fillRect(px-52, py-44, 104, 44); ctx.fillStyle = '#7f1d1d'; ctx.fillRect(px+12, py-44, 40, 44);
+      const domeG = ctx.createLinearGradient(px-24, 0, px+24, 0);
+      domeG.addColorStop(0, '#fde047'); domeG.addColorStop(0.5, '#f59e0b'); domeG.addColorStop(1, '#92400e');
+      ctx.fillStyle = domeG; ctx.beginPath(); ctx.arc(px, py-44, 24, Math.PI, 0); ctx.fill();
+      ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(px, py, 11, Math.PI, 0); ctx.fill();
+    }
+  }
+  else{
+    const moonX = w*(0.24 + rng()*0.52), moonY = h*0.32;
+    const sky = ctx.createLinearGradient(0, 0, 0, h*0.68);
+    sky.addColorStop(0, '#090914'); sky.addColorStop(0.6, '#1e1b4b'); sky.addColorStop(1, '#312e81');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    const halo = ctx.createRadialGradient(moonX, moonY, 6, moonX, moonY, 46);
+    halo.addColorStop(0, 'rgba(254,249,195,0.95)'); halo.addColorStop(0.35, 'rgba(254,240,138,0.28)'); halo.addColorStop(1, 'rgba(254,240,138,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(moonX, moonY, 46, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fefce8'; ctx.beginPath(); ctx.arc(moonX, moonY, 12, 0, Math.PI*2); ctx.fill();
+    for(let i=0;i<28;i++){ ctx.fillStyle = `rgba(255,255,255,${0.35 + rng()*0.65})`; ctx.fillRect(rng()*w, rng()*h*0.52, 1.3, 1.3); }
+    drawMountain(ctx, w*0.5, h*0.36, w*1.3, h*0.74, '#27273f', '#0f0f1a', 0, null);
+    ctx.fillStyle = '#09090b'; ctx.fillRect(0, h*0.7, w, h*0.3);
+    if(t === 0){
+      const cx = w*0.48, cy = h*0.64;
+      ctx.fillStyle = '#27272a'; ctx.fillRect(cx-18, cy-14, 34, 16);
+      ctx.fillStyle = '#fde047'; ctx.fillRect(cx-6, cy-10, 8, 6);
+    }else if(t === 1){
+      const cx = w*0.5, cy = h*0.74;
+      ctx.fillStyle = '#18181b'; ctx.fillRect(cx-44, cy-42, 88, 42); ctx.fillRect(cx-48, cy-62, 22, 62); ctx.fillRect(cx+26, cy-62, 22, 62);
+      ctx.fillStyle = '#fbbf24'; ctx.fillRect(cx-39, cy-48, 5, 9); ctx.fillRect(cx+35, cy-48, 5, 9);
+    }else{
+      const cx = w*0.5, cy = h*0.76;
+      ctx.fillStyle = '#1e1b4b'; ctx.fillRect(cx-56, cy-48, 112, 48);
+      ctx.fillStyle = '#312e81'; ctx.beginPath(); ctx.moveTo(cx-60, cy-48); ctx.lineTo(cx, cy-74); ctx.lineTo(cx+60, cy-48); ctx.fill();
+      [-36, -14, 14, 36].forEach(wx=>{ ctx.fillStyle = '#fde047'; ctx.fillRect(cx+wx-4, cy-36, 8, 14); });
+    }
+  }
+  applyOilFinish(ctx, w, h, rng);
+  const url = cv.toDataURL('image/jpeg', 0.88);
+  ART_CACHE.set(c.id, url);
+  return url;
+}
+
+function getNobleArtUrl(n){
+  if(NOB_CACHE.has(n.id)) return NOB_CACHE.get(n.id);
+  const w = 140, h = 148, cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d'), rng = makeRng(n.id * 131 + 19);
+  const bg = ctx.createRadialGradient(w*0.62, h*0.36, 8, w*0.5, h*0.5, w*0.78);
+  bg.addColorStop(0, n.bg); bg.addColorStop(0.65, '#1e120a'); bg.addColorStop(1, '#090503');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+
+  const cx = w * 0.62;
+  const cloakG = ctx.createLinearGradient(cx-48, h*0.55, cx+48, h);
+  cloakG.addColorStop(0, n.cl); cloakG.addColorStop(1, '#120905');
+  ctx.fillStyle = cloakG; ctx.beginPath(); ctx.moveTo(cx-52, h); ctx.quadraticCurveTo(cx-44, h*0.62, cx, h*0.62); ctx.quadraticCurveTo(cx+44, h*0.62, cx+52, h); ctx.fill();
+  ctx.strokeStyle = '#f5d061'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = '#fffbeb'; ctx.beginPath(); ctx.moveTo(cx-20, h*0.62); ctx.lineTo(cx, h*0.82); ctx.lineTo(cx+20, h*0.62); ctx.fill();
+
+  ctx.fillStyle = '#c89266'; ctx.fillRect(cx-8, h*0.48, 16, 22);
+  const faceG = ctx.createRadialGradient(cx-5, h*0.36, 3, cx, h*0.4, 24);
+  faceG.addColorStop(0, '#fde2c4'); faceG.addColorStop(0.65, '#e2aa7b'); faceG.addColorStop(1, '#9c6239');
+  ctx.fillStyle = faceG; ctx.beginPath(); ctx.ellipse(cx, h*0.4, 18, 22, 0, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = n.hair; ctx.beginPath(); ctx.arc(cx, h*0.35, 21, Math.PI*0.92, Math.PI*2.08);
+  ctx.quadraticCurveTo(cx+23, h*0.52, cx+16, h*0.54); ctx.lineTo(cx+15, h*0.36); ctx.quadraticCurveTo(cx, h*0.26, cx-15, h*0.36); ctx.lineTo(cx-16, h*0.54); ctx.quadraticCurveTo(cx-23, h*0.52, cx-21, h*0.35); ctx.fill();
+
+  [cx-7, cx+7].forEach(ex=>{
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(ex, h*0.38, 3, 2, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1c1008'; ctx.beginPath(); ctx.arc(ex, h*0.38, 1.8, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.fillStyle = '#9e3b38'; ctx.beginPath(); ctx.ellipse(cx, h*0.485, 5, 2.2, 0, 0, Math.PI*2); ctx.fill();
+
+  const crownG = ctx.createLinearGradient(cx-18, 0, cx+18, 0);
+  crownG.addColorStop(0, '#b45309'); crownG.addColorStop(0.5, '#fde047'); crownG.addColorStop(1, '#92400e');
+  ctx.fillStyle = crownG; ctx.beginPath();
+  ctx.moveTo(cx-18, h*0.24); ctx.lineTo(cx-15, h*0.11); ctx.lineTo(cx-7, h*0.18);
+  ctx.lineTo(cx, h*0.08); ctx.lineTo(cx+7, h*0.18); ctx.lineTo(cx+15, h*0.11); ctx.lineTo(cx+18, h*0.24);
+  ctx.closePath(); ctx.fill();
+
+  applyOilFinish(ctx, w, h, rng);
+  const url = cv.toDataURL('image/jpeg', 0.88);
+  NOB_CACHE.set(n.id, url);
+  return url;
+}
+
+const chip=(n,k)=>`<i style="background:radial-gradient(circle at 35% 30%, ${HX_LIGHT[k]}, ${HX[k]} 70%, ${HX_DARK[k]});color:${TX[k]}">${n}</i>`;
+
+const nobH=n=>`<div class="nb" id="nob-${n.id}">
+  <img src="${getNobleArtUrl(n)}" alt="${esc(n.name)}" style="width:100%;height:100%;object-fit:cover;display:block">
+  <div class="nb-overlay"></div>
+  <div class="nb-pts">3</div>
+  <div class="ch">${n.need.map((v,k)=>v?chip(v,k):'').join('')}</div>
+  <div class="nb-name">${n.name}</div>
+</div>`;
+
+/* ---------- ルールロジック ---------- */
+const clone=o=>JSON.parse(JSON.stringify(o)),sum=a=>a.reduce((x,y)=>x+y,0);
+const bonOf=p=>{const b=[0,0,0,0,0];p.cards.forEach(i=>b[CARDS[i].col]++);return b},ptsOf=p=>p.cards.reduce((a,i)=>a+CARDS[i].pts,0)+p.nobles.length*3,tot=p=>sum(p.tok);
+const afford=(p,c)=>{const b=bonOf(p);let n=0;for(let k=0;k<5;k++)n+=Math.max(0,c.cost[k]-b[k]-p.tok[k]);return n<=p.tok[5]};
+function newGame(pl){const n=pl.length,g=n==2?4:n==3?5:7,sh=a=>a.sort(()=>Math.random()-.5),d=[0,1,2].map(t=>sh(CARDS.filter(c=>c.t==t).map(c=>c.id)));
+return{status:'play',v:0,turn:0,final:false,log:['交易開始！先に威信15点で最終ラウンド'],bank:[g,g,g,g,g,5],decks:d,board:d.map(x=>[x.pop(),x.pop(),x.pop(),x.pop()]),nobles:sh(NOB.map(x=>x.id)).slice(0,n+1),players:pl.map(p=>({...p,tok:[0,0,0,0,0,0],cards:[],res:[],nobles:[]}))}}
+function end(s,m){s.log.unshift(m);s.log.length=Math.min(s.log.length,4);if(ptsOf(s.players[s.turn])>=15)s.final=true;s.turn=(s.turn+1)%s.players.length;if(s.final&&s.turn==0)s.status='over'}
+const refill=(s,{t,i})=>{s.board[t][i]=s.decks[t].pop()??null};
+
+let lastActionFx=null; // 状態更新直後に再生する物理アニメーション情報
+
+function buy(s,p,id,src){
+  const c=CARDS[id],b=bonOf(p),pIdx=s.turn,spent=[];
+  for(let k=0;k<5;k++){
+    const due=Math.max(0,c.cost[k]-b[k]),u=Math.min(due,p.tok[k]);
+    for(let x=0;x<u;x++)spent.push(k);
+    p.tok[k]-=u;s.bank[k]+=u;
+    const goldU=due-u;
+    for(let x=0;x<goldU;x++)spent.push(5);
+    p.tok[5]-=goldU;s.bank[5]+=goldU;
+  }
+  if(src.res!=null)p.res.splice(src.res,1);else refill(s,src);
+  p.cards.push(id);
+  const nb=bonOf(p),ni=s.nobles.findIndex(n=>NOB[n].need.every((x,k)=>nb[k]>=x));
+  let m=`${p.name}が${CN[c.col]}の施設を購入`, nobleId=null;
+  if(ni>=0){nobleId=s.nobles.splice(ni,1)[0];p.nobles.push(nobleId);m+='（貴族が来訪！+3点）'}
+  lastActionFx={type:'buy',cardId:id,src,pIdx,spent,nobleId,playerName:p.name};
+  end(s,m);return'';
+}
+function take(s,pk){
+  const p=s.players[s.turn],pIdx=s.turn,d=pk.length==2&&pk[0]==pk[1];
+  if(!pk.length)return'宝石を選んでください';
+  if(d?s.bank[pk[0]]<4:new Set(pk).size!=pk.length||pk.some(k=>s.bank[k]<1))return'その組み合わせは取れません';
+  if(tot(p)+pk.length>10)return'宝石は10個まで。手持ちの宝石をタップして戻せます';
+  pk.forEach(k=>{p.tok[k]++;s.bank[k]--});
+  lastActionFx={type:'take',tokens:[...pk],pIdx};
+  end(s,`${p.name}が宝石${pk.length}個を獲得`);return'';
+}
+function reserve(s,src){
+  const p=s.players[s.turn],pIdx=s.turn;
+  if(p.res.length>=3)return'予約は3枚までです';
+  let id;if(src.deck)id=s.decks[src.t].pop();else{id=s.board[src.t][src.i];refill(s,src)}
+  if(id==null)return'カードがありません';
+  p.res.push(id);
+  let gotGold=false;
+  if(s.bank[5]>0&&tot(p)<10){p.tok[5]++;s.bank[5]--;gotGold=true}
+  lastActionFx={type:'reserve',cardId:id,src,pIdx,gotGold};
+  end(s,`${p.name}がカードを予約`);return'';
+}
+
+/* ---------- NPC ---------- */
+function npc(){
+  const s=clone(S),p=s.players[s.turn],b=bonOf(p),opts=[];
+  p.res.forEach((id,i)=>opts.push({id,src:{res:i}}));
+  s.board.forEach((r,t)=>r.forEach((id,i)=>id!=null&&opts.push({id,src:{t,i}})));
+  const af=opts.filter(o=>afford(p,CARDS[o.id])).sort((a,c)=>CARDS[c.id].pts*3+CARDS[c.id].t-CARDS[a.id].pts*3-CARDS[a.id].t);
+  if(af.length){buy(s,p,af[0].id,af[0].src);return save(s)}
+  const miss=o=>[0,1,2,3,4].map(k=>Math.max(0,CARDS[o.id].cost[k]-b[k]-p.tok[k])),sc=o=>CARDS[o.id].pts*2+1-sum(miss(o))*1.3,tg=opts.sort((a,c)=>sc(c)-sc(a))[0],m=tg?miss(tg):[0,0,0,0,0];
+  let pk=[0,1,2,3,4].filter(k=>m[k]>0&&s.bank[k]>0).sort((a,c)=>m[c]-m[a]).slice(0,3);
+  if(pk.length==1&&m[pk[0]]>=2&&s.bank[pk[0]]>=4)pk=[pk[0],pk[0]];
+  if(!pk.length)pk=[0,1,2,3,4].filter(k=>s.bank[k]>0).sort(()=>Math.random()-.5).slice(0,3);
+  while(10-tot(p)<pk.length&&tot(p)>0){const k=[0,1,2,3,4].sort((a,c)=>(p.tok[c]-m[c])-(p.tok[a]-m[a]))[0];if(p.tok[k]<1)break;p.tok[k]--;s.bank[k]++}
+  pk=pk.slice(0,Math.max(0,10-tot(p)));
+  if(pk.length&&!take(s,pk))return save(s);
+  if(tg&&tg.src.t!=null&&reserve(s,tg.src)==='')return save(s);
+  end(s,`${p.name}はパス`);save(s);
+}
+
+/* ---------- 通信（Cloudflare Pages / 静的ホスティング対応・ローカル即時プレイ完備） ---------- */
+let S=null,db=null,user=null,uid='u'+Math.random().toString(36).slice(2),code='',unsub=null,tm=0,sel=[],sh=null,name='',join='';
+async function init(){try{if(window.claude){user=await claude.use('user');db=await claude.use('db');if(user)uid=await user.id()}}catch(e){}render()}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
+
+async function save(s){
+  const fx=lastActionFx; lastActionFx=null;
+  // 描画前に現在のDOM座標をキャプチャして飛行アニメーションを発火
+  if(fx) triggerBoardAnimation(fx);
+  s.v++;S=s;sel=[];sh=null;
+  render(fx);
+  sch();
+  if(db&&code){try{await db.doc('rooms/'+code).set({s:JSON.stringify(s)})}catch(e){toast('通信エラー')}}
+}
+
+function triggerBoardAnimation(fx){
+  const pEl=$(`#pl-${fx.pIdx}`);
+  const isMe=S&&S.players[fx.pIdx]&&S.players[fx.pIdx].id===uid;
+  const handEl=isMe?$('#my-hand'):pEl;
+
+  if(fx.type==='take'){
+    fx.tokens.forEach((k,idx)=>{
+      const bEl=$(`#bank-tk-${k}`);
+      flyToken(k, bEl, handEl||pEl, idx*90);
+    });
+  }else if(fx.type==='buy'){
+    // 支払う宝石チップがプレイヤーからバンクへ戻る
+    fx.spent.slice(0,6).forEach((k,idx)=>{
+      const bEl=$(`#bank-tk-${k}`);
+      flyToken(k, handEl||pEl, bEl, idx*60);
+    });
+    // 購入したカードが場（または予約）からプレイヤーボードへ飛ぶ
+    const cEl=fx.src.res!=null ? $(`#res-cd-${fx.src.res}`) : $(`#board-cd-${fx.src.t}-${fx.src.i}`);
+    if(cEl && pEl) flyCardToPlayer(fx.cardId, cEl, pEl);
+    if(fx.nobleId!=null) setTimeout(()=>showNobleBanner(fx.nobleId, fx.playerName), 380);
+  }else if(fx.type==='reserve'){
+    const cEl=fx.src.deck ? $(`#lv-deck-${fx.src.t}`) : $(`#board-cd-${fx.src.t}-${fx.src.i}`);
+    if(cEl && (handEl||pEl)) flyCardToPlayer(fx.cardId, cEl, handEl||pEl);
+    if(fx.gotGold){
+      const gEl=$('#bank-tk-5');
+      flyToken(5, gEl, handEl||pEl, 140);
+    }
+  }
+}
+
+function sub(){unsub&&unsub();unsub=db.doc('rooms/'+code).onSnapshot(sn=>{if(!sn.exists)return;const s=JSON.parse(sn.data().s);if(!S||s.v>=S.v){S=s;render();sch()}},()=>toast('接続エラー'))}
+function sch(){clearTimeout(tm);if(S&&S.status=='play'&&S.players[S.turn].npc&&S.players[0].id==uid)tm=setTimeout(npc,1300)}
+const mine=()=>S&&S.status=='play'&&S.players[S.turn].id==uid&&!S.players[S.turn].npc;
+function act(fn){if(!mine())return toast('あなたの番ではありません');const s=clone(S),e=fn(s,s.players[s.turn]);e?toast(e):save(s)}
+
+/* ---------- 画面描画 ---------- */
+const cardH=(id,a='',ok=0,domId='',dealIn=false)=>{
+  if(id==null)return`<div class="cd em" ${domId?`id="${domId}"`:''}></div>`;
+  const c=CARDS[id];
+  return`<div class="cd ${ok?'ok':''} ${dealIn?'deal-in':''}" ${domId?`id="${domId}"`:''} ${a}>
+    <img src="${getCardArtUrl(c)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+    <div class="hd"></div>
+    <b class="pt">${c.pts||''}</b>
+    <span class="bg">${gem(c.col,20)}</span>
+    <div class="cs">${c.cost.map((n,k)=>n?chip(n,k):'').join('')}</div>
+  </div>`;
+};
+
+const tokenH=(k,cnt,selected,actName)=>{
+  const bg=`radial-gradient(circle at 35% 30%, ${HX_LIGHT[k]}, ${HX[k]} 68%, ${HX_DARK[k]})`;
+  return `<div class="tk-wrap">
+    <div id="bank-tk-${k}" class="tk ${selected?'sel':''} ${cnt==0?'zero':''}" data-act="${actName}" data-k="${k}" style="background:${bg}">
+      ${gem(k,24)}
+      <span class="tk-cnt">${cnt}</span>
+    </div>
+    <span class="tk-lbl">${k<5?CN[k]:'黄金'}</span>
+  </div>`;
+};
+
+function render(fx=null){app.innerHTML=!S?home():S.status=='lobby'?lobby():game(fx);const n=$('#nm');if(n)n.oninput=e=>name=e.target.value;const j=$('#jc');if(j)j.oninput=e=>join=e.target.value.toUpperCase()}
+
+const home=()=>`
+  <div class="title-wrap">
+    <div class="title-sub">Renaissance Jewel Guild</div>
+    <h1>SPLENDOR</h1>
+    <div class="title-ornament">◆ ジェムギルド ◆</div>
+  </div>
+  <p class="mu" style="text-align:center;margin:0 0 10px;font-size:12.5px">宝石を採掘し、交易網を築き、王侯貴族の庇護を受けよ</p>
+  <div class="p">
+    <input id="nm" placeholder="商人名を入力" value="${esc(name)}" maxlength="8">
+    <div class="lab" style="text-align:left;margin-top:8px">ひとりで遊ぶ（ギルド商人と対戦）</div>
+    <div style="display:flex;gap:6px;margin-top:4px">${[1,2,3].map(n=>`<button class="btn s" data-act="solo" data-n="${n}">対戦相手 ${n}人</button>`).join('')}</div>
+  </div>
+  ${db?`<div class="p">
+    <div class="lab" style="text-align:left">オンライン交易</div>
+    <button class="btn" data-act="create">ギルドルームを開く</button>
+    <input id="jc" placeholder="招待コード（4文字）" value="${esc(join)}" maxlength="4">
+    <button class="btn s" data-act="join">ルームに参加</button>
+  </div>`:''}`;
+
+function lobby(){const host=S.players[0].id==uid;return`
+  <div class="title-wrap"><div class="title-sub">Guild Hall</div><h1>ROOM ${esc(code)}</h1></div>
+  <p class="mu" style="text-align:center">この招待コードを仲間に伝えてください</p>
+  <div class="p">${S.players.map(p=>`<div style="padding:4px 0">${p.npc?'🤖':'👑'} ${esc(p.name)}${p.id==uid?'（あなた）':''}</div>`).join('')}</div>
+  ${host?`<div style="display:flex;gap:6px"><button class="btn s" data-act="addnpc">＋NPC追加</button><button class="btn s" data-act="delnpc">－NPC削除</button></div><button class="btn" data-act="start">交易を開始する（${S.players.length}人）</button>`:'<p class="mu" style="text-align:center">ホストの開始を待っています…</p>'}`}
+
+function game(fx=null){
+  const cur=S.players[S.turn],m=mine(),me=S.players.find(p=>p.id==uid),over=S.status=='over';
+  let h=`<div class="top">
+    <b style="font-size:15px;color:var(--gold-light)">${over?'🏆 交易終了':m?'✦ あなたの番です':esc(cur.name)+' の手番'+(cur.npc?'（思考中…）':'')}</b>
+    ${S.final&&!over?'<span class="fin">最終ラウンド</span>':''}
+  </div>`;
+
+  h+=`<div class="strip" style="margin:6px 0">${S.players.map((p,i)=>{
+    const bon=bonOf(p);
+    return `<div id="pl-${i}" class="pl ${i==S.turn&&!over?'on':''}">
+      <div class="pl-head">
+        <b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:66px">${p.npc?'🤖':''}${esc(p.name)}</b>
+        <span class="pl-pts">${ptsOf(p)}<small style="font-size:10px">pt</small></span>
+      </div>
+      <div class="pl-cards">${bon.map((n,k)=>`<div class="bcard ${n==0?'zero':''}" style="background:${HX[k]};color:${TX[k]}">${n}</div>`).join('')}</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
+        <span>チップ ${tot(p)}/10</span>
+        <span>予約 ${p.res.length}/3</span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+
+  h+=`<div class="nobs">${S.nobles.map(n=>nobH(NOB[n])).join('')}</div>`;
+
+  h+=`<div class="p">
+    <div class="bank">${[0,1,2,3,4,5].map(k=>tokenH(k,S.bank[k],sel.includes(k),'bank')).join('')}</div>
+    ${m&&sel.length
+      ?`<div style="display:flex;gap:6px;margin-top:8px"><button class="btn sm" style="flex:1" data-act="take">宝石を獲得（${sel.map(k=>CN[k]).join('・')}）</button><button class="btn sm s" data-act="clear">取消</button></div>`
+      :`<div class="lab">${m?'異なる3色を1個ずつ ／ または同色2個（残り4個以上）':'黄金チップはカード予約時に獲得（全色ワイルド）'}</div>`}
+  </div>`;
+
+  const lvNames=['I 採掘・原料','II 工房・交易','III 商館・宮殿'];
+  for(let t=2;t>=0;t--){
+    const dots='<span></span>'.repeat(t+1);
+    h+=`<div class="lv-bar">
+      <div id="lv-deck-${t}" class="lv-tag"><span class="lv-dots">${dots}</span> ${lvNames[t]} <small class="mu">（山札 ${S.decks[t].length}）</small></div>
+      ${m&&S.decks[t].length?`<button class="btn sm s" style="padding:2px 8px;font-size:11px" data-act="deck" data-t="${t}">山札から予約</button>`:''}
+    </div>
+    <div class="row">${S.board[t].map((id,i)=>{
+      const isDealt = fx && fx.src && fx.src.res==null && !fx.src.deck && fx.src.t===t && fx.src.i===i;
+      return cardH(id,`data-act="card" data-t="${t}" data-i="${i}"`,id!=null&&me&&afford(me,CARDS[id])?1:0,`board-cd-${t}-${i}`,isDealt);
+    }).join('')}</div>`;
+  }
+
+  if(me){
+    h+=`<div id="my-hand" class="p">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b style="color:var(--gold-light)">${esc(me.name)} の手元（威信 ${ptsOf(me)}点）</b>
+        <span class="mu" style="font-size:11px">タップでバンクへ返却</span>
+      </div>
+      <div style="display:flex;gap:6px;margin:8px 0 4px">
+        ${me.tok.map((n,k)=>n?`<div class="tk" data-act="ret" data-k="${k}" style="width:40px;height:40px;background:radial-gradient(circle at 35% 30%, ${HX_LIGHT[k]}, ${HX[k]} 68%, ${HX_DARK[k]})">${gem(k,20)}<span class="tk-cnt">${n}</span></div>`:'').join('')||'<span class="mu" style="font-size:12px">所持している宝石チップはありません</span>'}
+      </div>
+      ${me.res.length?`<div class="lv-bar" style="margin-top:8px"><div class="lv-tag">予約中の開発カード（${me.res.length}/3）</div></div><div class="row">${me.res.map((id,i)=>cardH(id,`data-act="res" data-i="${i}"`,afford(me,CARDS[id])?1:0,`res-cd-${i}`)).join('')}</div>`:''}
+    </div>`;
+  }
+
+  h+=`<div class="log">${S.log.map(esc).join('<br>')}</div>`;
+
+  if(over){
+    const r=[...S.players].sort((a,b)=>ptsOf(b)-ptsOf(a)||a.cards.length-b.cards.length);
+    h+=`<div class="sheet"><div>
+      <h2 style="margin:0 0 8px;color:var(--gold-light);font-family:'Cinzel','Noto Serif JP',serif">🏆 ${esc(r[0].name)} の勝利！</h2>
+      ${r.map((p,i)=>`<div style="padding:4px 0;border-bottom:1px solid rgba(212,167,74,0.2)">${i+1}位　<b>${esc(p.name)}</b>　威信 ${ptsOf(p)}点（発展カード ${p.cards.length}枚）</div>`).join('')}
+      <button class="btn" style="margin-top:12px" data-act="home">タイトルへ戻る</button>
+    </div></div>`;
+  }
+  else if(sh){
+    const c=CARDS[sh.id],can=m&&me&&afford(me,c);
+    h+=`<div class="sheet" data-act="close"><div>
+      ${cardH(sh.id,'',can?1:0)}
+      <div style="text-align:center;margin-bottom:8px" class="mu">${can?'✦ 必要な宝石が揃っています':'宝石が不足しています'}</div>
+      ${m?`<button class="btn" ${can?'':'disabled style="opacity:.4"'} data-act="buy">このカードを購入する</button>${sh.src.res==null?'<button class="btn s" data-act="resv">予約する（黄金チップ +1）</button>':''}`:''}
+      <button class="btn s" data-act="close">閉じる</button>
+    </div></div>`;
+  }
+  return h;
+}
+
+/* ---------- イベントハンドラ ---------- */
+document.addEventListener('click',async e=>{
+  const a=e.target.closest('[data-act]');if(!a)return;
+  const d=a.dataset,k=+d.k;
+  if(e.target.closest('.sheet>div')&&d.act=='close'&&a.classList.contains('sheet'))return;
+  switch(d.act){
+    case'solo':{if(!name.trim())return toast('商人名を入力してください');playSfx('card');code='';const pl=[{id:uid,name:name.trim(),npc:false}];for(let i=1;i<=+d.n;i++)pl.push({id:'npc'+i,name:'商人'+i,npc:true});S=newGame(pl);render();sch();break}
+    case'create':{if(!db)return toast('オンライン機能が使えません');if(!name.trim())return toast('商人名を入力してください');code=Math.random().toString(36).slice(2,6).toUpperCase();S={status:'lobby',v:0,players:[{id:uid,name:name.trim(),npc:false}]};try{await db.doc('rooms/'+code).set({s:JSON.stringify(S)});sub();render()}catch(x){toast('作成に失敗しました');S=null}break}
+    case'join':{if(!db)return toast('オンライン機能が使えません');if(!name.trim()||join.length<4)return toast('名前とコードを入力してください');try{const sn=await db.doc('rooms/'+join).get();if(!sn.exists)return toast('ルームが見つかりません');const s=JSON.parse(sn.data().s);if(!s.players.some(p=>p.id==uid)){if(s.status!='lobby'||s.players.length>=4)return toast('参加できません');s.players.push({id:uid,name:name.trim(),npc:false});s.v++;await db.doc('rooms/'+join).set({s:JSON.stringify(s)})}code=join;S=s;sub();render()}catch(x){toast('参加に失敗しました')}break}
+    case'addnpc':{if(S.players.length>=4)return toast('最大4人です');const s=clone(S);s.players.push({id:'npc'+Date.now(),name:'商人'+(s.players.filter(p=>p.npc).length+1),npc:true});save(s);break}
+    case'delnpc':{const s=clone(S),i=s.players.map(p=>p.npc).lastIndexOf(true);if(i>0){s.players.splice(i,1);save(s)}break}
+    case'start':{if(S.players.length<2)return toast('2人以上必要です');save(Object.assign(newGame(S.players),{v:S.v}));break}
+    case'home':{unsub&&unsub();S=null;code='';render();break}
+    case'bank':{if(!mine())return;if(k==5)return toast('黄金チップは予約でのみ入手できます');if(S.bank[k]<1)return toast('その宝石は残っていません');playSfx('chip');if(sel.length==2&&sel[0]==sel[1])sel=[k];else if(sel.includes(k)){if(sel.length==1&&S.bank[k]>=4)sel=[k,k];else sel=sel.filter(x=>x!=k)}else if(sel.length<3)sel.push(k);render();break}
+    case'clear':sel=[];render();break;
+    case'take':act((s)=>take(s,sel));break;
+    case'ret':act((s,p)=>{if(p.tok[k]<1)return'なし';playSfx('chip');p.tok[k]--;s.bank[k]++;s.log.unshift(p.name+'が宝石をバンクへ戻した');return''});break;
+    case'card':{const id=S.board[+d.t][+d.i];if(id!=null){playSfx('card');sh={id,src:{t:+d.t,i:+d.i}};render()}break}
+    case'res':{playSfx('card');sh={id:S.players.find(p=>p.id==uid).res[+d.i],src:{res:+d.i}};render();break}
+    case'close':sh=null;render();break;
+    case'buy':{const r=sh;act((s,p)=>afford(p,CARDS[r.id])?buy(s,p,r.id,r.src):'宝石が足りません');break}
+    case'resv':{const r=sh;act(s=>reserve(s,r.src));break}
+    case'deck':act(s=>reserve(s,{deck:1,t:+d.t}));break}
+});
+init();
+</script></body></html>
